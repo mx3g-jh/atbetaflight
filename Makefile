@@ -18,6 +18,9 @@
 # The target to build, see VALID_TARGETS below
 TARGET    ?= AT32F437DEV
 
+# The target MCU use
+TARGET_DEVICE    ?= AT32F435CMU7
+
 # Compile-time options
 OPTIONS   ?=
 
@@ -553,6 +556,11 @@ st-flash_$(TARGET): $(TARGET_BIN)
 
 ## st-flash          : flash firmware (.bin) onto flight controller
 st-flash: st-flash_$(TARGET)
+
+## jlink-flash          : flash firmware (.hex) onto flight controller
+jlink-flash:$(TARGET_HEX)
+	@echo "start to flash:"
+	bash ./flash.sh $(TARGET_HEX) $(TARGET_DEVICE)
 
 ifneq ($(OPENOCD_COMMAND),)
 openocd-gdb: $(TARGET_ELF)
